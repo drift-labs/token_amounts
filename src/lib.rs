@@ -1,4 +1,4 @@
-use drift::state::spot_market::{SpotBalanceType, SpotMarket};
+use drift::state::spot_market::{SpotMarket};
 use solana_program::account_info::AccountInfo;
 use anchor_lang::Discriminator;
 use anchor_lang::prelude::AccountLoader;
@@ -6,7 +6,16 @@ use drift::state::user::User;
 use solana_program::pubkey::Pubkey;
 use arrayref::array_ref;
 
-pub fn get_token_amounts(account_infos: Vec<&AccountInfo>, spot_market_index: u16) -> Vec<(Pubkey, Pubkey, i128)> {
+pub struct UserTokenAmount {
+    /// drift user account key
+    pub user: Pubkey,
+    /// user wallet public key
+    pub authority: Pubkey,
+    /// positive for deposit, negative for borrow
+    pub token_amount: i128,
+}
+
+pub fn get_token_amounts(account_infos: Vec<&AccountInfo>, spot_market_index: u16) -> Vec<UserTokenAmount> {
     let mut spot_market : Option<SpotMarket> = None;
     let mut users = vec![];
 
@@ -48,7 +57,11 @@ pub fn get_token_amounts(account_infos: Vec<&AccountInfo>, spot_market_index: u1
 
         let token_amount = spot_position.get_signed_token_amount(&spot_market).unwrap();
 
-        token_amounts.push((user_key, authority, token_amount));
+        token_amounts.push(UserTokenAmount {
+            user: user_key,
+            authority,
+            token_amount,
+        });
     }
 
     token_amounts
