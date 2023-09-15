@@ -1,0 +1,14 @@
+[package]
+name = "token_amounts"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+solana-program = "=1.14.16"
+anchor-lang = "0.27.0"
+drift = { git = "https://github.com/drift-labs/protocol-v2.git", rev = "e95874", features = ["cpi", "mainnet-beta"]}
+bytemuck = { version = "1.4.0" }
+arrayref = "0.3.6"
+
