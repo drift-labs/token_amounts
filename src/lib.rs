@@ -6,7 +6,7 @@ use drift::state::user::User;
 use solana_program::pubkey::Pubkey;
 use arrayref::array_ref;
 
-pub fn get_token_amounts(account_infos: Vec<&AccountInfo>, spot_market_index: u16) -> Vec<(Pubkey, Pubkey, u128)> {
+pub fn get_token_amounts(account_infos: Vec<&AccountInfo>, spot_market_index: u16) -> Vec<(Pubkey, Pubkey, i128)> {
     let mut spot_market : Option<SpotMarket> = None;
     let mut users = vec![];
 
@@ -46,11 +46,7 @@ pub fn get_token_amounts(account_infos: Vec<&AccountInfo>, spot_market_index: u1
             Err(_) => continue,
         };
 
-        if spot_position.balance_type != SpotBalanceType::Deposit {
-            continue;
-        }
-
-        let token_amount = spot_position.get_token_amount(&spot_market).unwrap();
+        let token_amount = spot_position.get_signed_token_amount(&spot_market).unwrap();
 
         token_amounts.push((user_key, authority, token_amount));
     }
