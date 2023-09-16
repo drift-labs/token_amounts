@@ -6,6 +6,10 @@ use drift::state::user::User;
 use solana_program::pubkey::Pubkey;
 use arrayref::array_ref;
 
+#[cfg(test)]
+mod tests;
+
+#[derive(Eq, PartialEq, Debug)]
 pub struct UserTokenAmount {
     /// drift user account key
     pub user: Pubkey,

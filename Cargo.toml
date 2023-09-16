@@ -12,3 +12,6 @@ drift = { git = "https://github.com/drift-labs/protocol-v2.git", rev = "e95874",
 bytemuck = { version = "1.4.0" }
 arrayref = "0.3.6"
 
+[dev-dependencies]
+bytes = "1.2.0"
+
